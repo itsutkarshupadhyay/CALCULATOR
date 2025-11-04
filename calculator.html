@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symbol Display Calculator</title>
+  <style>
+    body {
+      background-color: #f3f4f6;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calculator {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      width: 340px;
+    }
+
+    .display {
+      background-color: #e5e7eb;
+      color: #000;
+      font-size: 2rem;
+      text-align: right;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      min-height: 50px;
+      overflow-x: auto;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      padding: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .operator {
+      background-color: #f59e0b;
+      color: white;
+    }
+
+    .equal {
+      background-color: #22c55e;
+      color: white;
+    }
+
+    .clear {
+      background-color: #ef4444;
+      color: white;
+    }
+
+    .number, .dot {
+      background-color: #374151;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div id="display" class="display">0</div>
+    <div class="buttons">
+      <button class="clear">C</button>
+      <button class="operator">(</button>
+      <button class="operator">)</button>
+      <button class="operator">/</button>
+
+      <button class="number">7</button>
+      <button class="number">8</button>
+      <button class="number">9</button>
+      <button class="operator">*</button>
+
+      <button class="number">4</button>
+      <button class="number">5</button>
+      <button class="number">6</button>
+      <button class="operator">-</button>
+
+      <button class="number">1</button>
+      <button class="number">2</button>
+      <button class="number">3</button>
+      <button class="operator">+</button>
+
+      <button class="number">0</button>
+      <button class="dot">.</button>
+      <button class="equal">=</button>
+      <button class="operator">%</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById("display");
+    const buttons = document.querySelectorAll("button");
+
+    let currentExpression = ""; 
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const value = btn.textContent;
+
+      
+        if (value === "C") {
+          currentExpression = "";
+          display.textContent = "0";
+          return;
+        }
+
+        
+        if (value === "=") {
+          try {
+            
+            const result = Function('"use strict";return (' + currentExpression + ')')();
+            display.textContent = result;
+            currentExpression = result.toString();
+          } catch {
+            display.textContent = "Error";
+            currentExpression = "";
+          }
+          return;
+        }
+
+        currentExpression += value;
+        display.textContent = currentExpression;
+      });
+    });
+  </script>
+</body>
+</html>
